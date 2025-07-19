@@ -1,0 +1,11 @@
+#!/bin/bash
+
+mender-setup \
+  --quiet \
+  --device-type "$DEVICE_TYPE" \
+  --demo=false \
+  --hosted-mender \
+  --tenant-token "$TENANT_TOKEN" \
+  --update-poll 5 \
+  --inventory-poll 600 \
+  --retry-poll 5
