@@ -6,8 +6,8 @@ on:
     tags:
   pull_request:
 jobs:
-  build-docker-image:
-    name: Build Docker image
+  build-docker-images:
+    name: Build Docker images
     runs-on: ubuntu-24.04
     permissions:
       packages: write
@@ -43,6 +43,17 @@ jobs:
         env:
           REGISTRY: ghcr.io/rcwbr/
           IMAGE_NAME: mender-client-docker
+      -
+        id: docker-bake-mender-client-docker-launcher
+        name: Docker Bake mender-client-docker-launcher
+        uses: docker/bake-action@v5.7.0
+        with:
+          workdir: docker/mender-client-docker-launcher
+          source: https://github.com/rcwbr/dockerfile-partials.git#0.10.0
+          files: github-cache-bake.hcl, cwd://docker-bake.hcl
+        env:
+          REGISTRY: ghcr.io/rcwbr/
+          IMAGE_NAME: mender-client-docker-launcher
     outputs:
       docker-bake: ${{ steps.docker-bake.outputs.metadata }}
   devcontainer-cache-build:
