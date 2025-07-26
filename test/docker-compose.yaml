@@ -1,0 +1,28 @@
+# Launch the Mender client Docker image locally for testing
+services:
+  mender-client-setup:
+    image: mender-client-docker
+    container_name: mender-client-setup
+    environment:
+      DEVICE_TYPE: virtual
+      TENANT_TOKEN: ${TENANT_TOKEN}
+    entrypoint: /setup-entrypoint
+    volumes:
+      # Saves the client configuration between container restarts
+      - mender-client-config:/etc/mender
+  mender-client:
+    image: mender-client-docker
+    container_name: mender-client
+    volumes:
+      # Mount the setup from the mender-client-config container
+      - mender-client-config:/etc/mender
+      # Saves the client key between container restarts
+      - mender-client-data:/var/lib/mender
+    restart: always
+    depends_on:
+      mender-client-setup:
+        condition: service_completed_successfully
+
+volumes:
+  mender-client-config:
+  mender-client-data:
