@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Inspired by https://github.com/mendersoftware/integration/blob/b1a8ab112cd6b0cf92d3a66c483d78fa31d74486/extra/mender-client-docker-addons/entrypoint.sh
+cp /usr/share/dbus-1/system.d/io.mender.AuthenticationManager.conf /etc/dbus-1/system-local.conf
+dbus-daemon --nofork --nopidfile --system &
+sleep 8
+mender-auth daemon &
+sleep 1
+mender-update daemon &
+sleep 8
+mender-connect daemon &
+while true; do sleep 10; done

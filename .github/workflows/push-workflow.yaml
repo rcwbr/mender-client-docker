@@ -6,6 +6,56 @@ on:
     tags:
   pull_request:
 jobs:
+  build-docker-images:
+    name: Build Docker images
+    runs-on: ubuntu-24.04
+    permissions:
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.7
+      -
+        # TODO remove after more satisfactory options exist to use latest Docker
+        # version while avoiding this issue: https://github.com/docker/buildx/issues/59
+        name: Set up Docker
+        uses: docker/setup-docker-action@v4
+        with:
+          version: 27.3.1
+      - name: GHCR Login
+        uses: docker/login-action@v3.3.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Docker Buildx builder setup
+        uses: docker/setup-buildx-action@v3.11.1
+        with:
+          version: v0.19.1
+      -
+        id: docker-bake-mender-client-docker
+        name: Docker Bake mender-client-docker
+        uses: docker/bake-action@v5.7.0
+        with:
+          workdir: docker/mender-client-docker
+          source: https://github.com/rcwbr/dockerfile-partials.git#0.10.0
+          files: github-cache-bake.hcl, cwd://docker-bake.hcl
+        env:
+          REGISTRY: ghcr.io/rcwbr/
+          IMAGE_NAME: mender-client-docker
+      -
+        id: docker-bake-mender-client-docker-launcher
+        name: Docker Bake mender-client-docker-launcher
+        uses: docker/bake-action@v5.7.0
+        with:
+          workdir: docker/mender-client-docker-launcher
+          source: https://github.com/rcwbr/dockerfile-partials.git#0.10.0
+          files: github-cache-bake.hcl, cwd://docker-bake.hcl
+        env:
+          REGISTRY: ghcr.io/rcwbr/
+          IMAGE_NAME: mender-client-docker-launcher
+    outputs:
+      docker-bake: ${{ steps.docker-bake.outputs.metadata }}
   devcontainer-cache-build:
     uses: rcwbr/devcontainer-cache-build/.github/workflows/devcontainer-cache-build.yaml@0.6.0
     permissions:
