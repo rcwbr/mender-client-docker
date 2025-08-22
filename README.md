@@ -45,7 +45,7 @@ docker run \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -e MENDER_PAT \
   -e DEVICE_TYPE=<your device type> \
-  ghcr.io/rcwbr/mender-client-docker-launcher:0.2.3
+  ghcr.io/rcwbr/mender-client-docker-launcher:0.3.0
 ```
 
 #### `mender-client-docker-launcher` inputs<a name="mender-client-docker-launcher-inputs"></a>
@@ -67,7 +67,7 @@ Prepare a Docker compose file for the setup and client containers:
 ```yaml
 services:
   mender-client-setup:
-    image: ghcr.io/rcwbr/mender-client-docker:0.2.3
+    image: ghcr.io/rcwbr/mender-client-docker:0.3.0
     container_name: mender-client-setup
     environment:
       DEVICE_TYPE: ${DEVICE_TYPE}
@@ -76,7 +76,7 @@ services:
     volumes:
       - mender-client-config:/etc/mender
   mender-client:
-    image: ghcr.io/rcwbr/mender-client-docker:0.2.3
+    image: ghcr.io/rcwbr/mender-client-docker:0.3.0
     container_name: mender-client
     volumes:
       - mender-client-config:/etc/mender
