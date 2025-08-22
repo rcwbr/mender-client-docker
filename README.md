@@ -8,6 +8,7 @@ devices via the [Mender](https://docs.mender.io/) client, without additional hos
 - [mender-client-docker](#mender-client-docker)
   - [Usage](#usage)
     - [`mender-client-docker-launcher` usage](#mender-client-docker-launcher-usage)
+      - [`mender-client-docker-launcher` inputs](#mender-client-docker-launcher-inputs)
     - [`mender-client-docker` usage](#mender-client-docker-usage)
 - [Contributing](#contributing)
   - [Build the image](#build-the-image)
@@ -27,23 +28,35 @@ The core Mender client functionality is provided by the `mender-client-docker` i
 `mender-client-docker-launcher` image offers a convenience layer to manage setup and bringup of a
 `mender-client-docker` container on a system, and is the recommended pattern.
 
-Both patterns require the `TENANT_TOKEN` variable to
+The `mender-client-docker` pattern requires a `TENANT_TOKEN` variable to
 [authenticate against the Mender host](https://docs.mender.io/client-installation/install-with-debian-package#configure-the-mender-client).
+The `mender-client-docker-launcher` can optionally pass the `TENANT_TOKEN` through, or can retrieve
+a value from the Mender API using a personal access token `MENDER_PAT` (recommended).
 
 ### `mender-client-docker-launcher` usage<a name="mender-client-docker-launcher-usage"></a>
 
 Basic usage:
 
 ```bash
-export TENANT_TOKEN=<Mender org token>
+export MENDER_PAT=<Mender personal access token>
 docker run \
   --rm \
   --name mender-client-docker-launcher \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -e TENANT_TOKEN \
+  -e MENDER_PAT \
   -e DEVICE_TYPE=<your device type> \
   ghcr.io/rcwbr/mender-client-docker-launcher:0.2.3
 ```
+
+#### `mender-client-docker-launcher` inputs<a name="mender-client-docker-launcher-inputs"></a>
+
+The following environment variables configure the `mender-client-docker-launcher`:
+
+| Variable       | Default                    | Effect                                                                                                      |
+| -------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `MENDER_HOST`  | `https://hosted.mender.io` | The URL of the Mender server instance against which to authenticate.                                        |
+| `MENDER_PAT`   | N/A                        | If provided, this is the access token used to authenticate to the Mender API and retrieve the tenant token. |
+| `TENANT_TOKEN` | N/A                        | If provided, this is the tenant token directly. Precludes the use of `MENDER_PAT`.                          |
 
 ### `mender-client-docker` usage<a name="mender-client-docker-usage"></a>
 
