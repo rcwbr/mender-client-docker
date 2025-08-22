@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+TENANT_TOKEN=$(python /opt/mender-client-docker/mender-client-docker-launcher.py)
+export TENANT_TOKEN
+
+docker compose -f /opt/mender-client-docker/docker-compose.yaml up --detach
