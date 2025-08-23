@@ -1,6 +1,6 @@
 services:
   mender-client-setup:
-    image: ghcr.io/rcwbr/mender-client-docker:0.3.0
+    image: ghcr.io/rcwbr/mender-client-docker:0.3.1
     container_name: mender-client-setup
     environment:
       DEVICE_TYPE: ${DEVICE_TYPE}
@@ -10,7 +10,7 @@ services:
       # Saves the client configuration between container restarts
       - mender-client-config:/etc/mender
   mender-client:
-    image: ghcr.io/rcwbr/mender-client-docker:0.3.0
+    image: ghcr.io/rcwbr/mender-client-docker:0.3.1
     container_name: mender-client
     volumes:
       # Mount the setup from the mender-client-config container
