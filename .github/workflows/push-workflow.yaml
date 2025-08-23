@@ -52,6 +52,7 @@ jobs:
           workdir: docker/mender-client-docker-launcher
           source: https://github.com/rcwbr/dockerfile-partials.git#0.10.0
           files: github-cache-bake.hcl, cwd://docker-bake.hcl
+          allow: fs.read=..
         env:
           REGISTRY: ghcr.io/rcwbr/
           IMAGE_NAME: mender-client-docker-launcher
