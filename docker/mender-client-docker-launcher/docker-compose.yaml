@@ -10,6 +10,8 @@ services:
     volumes:
       # Saves the client configuration between container restarts
       - mender-client-config:/etc/mender
+      # Saves the device type between container restarts
+      - mender-client-data:/var/lib/mender
   mender-client:
     image: ghcr.io/rcwbr/mender-client-docker:0.4.0
     container_name: mender-client

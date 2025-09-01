@@ -2,7 +2,7 @@
 FROM base_context
 
 ARG DEBIAN_FRONTEND=noninteractive
-ENV DEVICE_TYPE=raspberrypi5
+ENV DEVICE_TYPE=none
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN \
   mkdir -p /run/dbus \
