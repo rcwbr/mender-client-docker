@@ -44,6 +44,7 @@ docker run \
   --name mender-client-docker-launcher \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -e MENDER_PAT \
+  -e MAC_ADDRESS=<e.g. $(cat /sys/class/net/eth0/address)> \
   -e DEVICE_TYPE=<your device type> \
   ghcr.io/rcwbr/mender-client-docker-launcher:0.3.1
 ```
@@ -52,11 +53,12 @@ docker run \
 
 The following environment variables configure the `mender-client-docker-launcher`:
 
-| Variable       | Default                    | Effect                                                                                                      |
-| -------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `MENDER_HOST`  | `https://hosted.mender.io` | The URL of the Mender server instance against which to authenticate.                                        |
-| `MENDER_PAT`   | N/A                        | If provided, this is the access token used to authenticate to the Mender API and retrieve the tenant token. |
-| `TENANT_TOKEN` | N/A                        | If provided, this is the tenant token directly. Precludes the use of `MENDER_PAT`.                          |
+| Variable       | Default                    | Effect                                                                                                                        |
+| -------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `MAC_ADDRESS`  | N/A                        | If provided, this becomes the MAC address associated with the client container, and thus the device as seen on Mender server. |
+| `MENDER_HOST`  | `https://hosted.mender.io` | The URL of the Mender server instance against which to authenticate.                                                          |
+| `MENDER_PAT`   | N/A                        | If provided, this is the access token used to authenticate to the Mender API and retrieve the tenant token.                   |
+| `TENANT_TOKEN` | N/A                        | If provided, this is the tenant token directly. Precludes the use of `MENDER_PAT`.                                            |
 
 ### `mender-client-docker` usage<a name="mender-client-docker-usage"></a>
 

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export REGISTRY=ghcr.io/rcwbr
+export IMAGE_NAME=mender-client-docker
+docker buildx bake -f github-cache-bake.hcl -f cwd://docker-bake.hcl https://github.com/rcwbr/dockerfile-partials.git#0.10.0
