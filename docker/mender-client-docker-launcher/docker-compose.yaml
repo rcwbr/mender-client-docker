@@ -1,6 +1,6 @@
 services:
   mender-client-setup:
-    image: ghcr.io/rcwbr/mender-client-docker:0.4.0
+    image: ghcr.io/rcwbr/mender-client-docker:0.4.1
     container_name: mender-client-setup
     environment:
       DEVICE_TYPE: ${DEVICE_TYPE}
@@ -13,7 +13,7 @@ services:
       # Saves the device type between container restarts
       - mender-client-data:/var/lib/mender
   mender-client:
-    image: ghcr.io/rcwbr/mender-client-docker:0.4.0
+    image: ghcr.io/rcwbr/mender-client-docker:0.4.1
     container_name: mender-client
     mac_address: ${MAC_ADDRESS}
     volumes:
