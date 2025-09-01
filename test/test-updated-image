@@ -1,2 +1,6 @@
 #!/bin/bash
+
+MAC_ADDRESS="$(cat /sys/class/net/eth0/address)"
+export MAC_ADDRESS
+
 docker compose up -d --no-deps mender-client

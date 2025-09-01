@@ -1,9 +1,9 @@
 #!/bin/bash
 
 docker run \
-  --rm \
   --name mender-client-docker-launcher \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -e TENANT_TOKEN \
+  -e MAC_ADDRESS="$(cat /sys/class/net/eth0/address)" \
+  -e MENDER_PAT \
   -e DEVICE_TYPE=virtual \
   mender-client-docker-launcher
