@@ -83,6 +83,7 @@ services:
     volumes:
       - mender-client-config:/etc/mender
       - mender-client-data:/var/lib/mender
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: always
     depends_on:
       mender-client-setup:
