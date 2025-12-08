@@ -22,6 +22,12 @@ jobs:
         uses: docker/setup-docker-action@v4
         with:
           version: 27.3.1
+          daemon-config: |
+            {
+              "features": {
+                "containerd-snapshotter": true
+              }
+            }
       - name: GHCR Login
         uses: docker/login-action@v3.3.0
         with:
@@ -38,10 +44,10 @@ jobs:
         name: Docker Bake mender-client-docker
         uses: docker/bake-action@v5.7.0
         with:
-          workdir: docker/mender-client-docker
+          workdir: docker
           source: https://github.com/rcwbr/dockerfile-partials.git#0.10.0
-          files: github-cache-bake.hcl, cwd://docker-bake.hcl
-          allow: fs.read=../..
+          files: github-cache-bake.hcl, cwd://vars.hcl, cwd://mender-client-docker/docker-bake.hcl
+          allow: fs.read=..
         env:
           REGISTRY: ghcr.io/rcwbr/
           IMAGE_NAME: mender-client-docker
@@ -50,10 +56,10 @@ jobs:
         name: Docker Bake mender-client-docker-launcher
         uses: docker/bake-action@v5.7.0
         with:
-          workdir: docker/mender-client-docker-launcher
+          workdir: docker
           source: https://github.com/rcwbr/dockerfile-partials.git#0.10.0
-          files: github-cache-bake.hcl, cwd://docker-bake.hcl
-          allow: fs.read=../..
+          files: github-cache-bake.hcl, cwd://vars.hcl, cwd://mender-client-docker-launcher/docker-bake.hcl
+          allow: fs.read=..
         env:
           REGISTRY: ghcr.io/rcwbr/
           IMAGE_NAME: mender-client-docker-launcher
