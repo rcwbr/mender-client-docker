@@ -6,7 +6,9 @@ services:
     environment:
       DEVICE_TYPE: virtual
       TENANT_TOKEN: ${TENANT_TOKEN}
-    mac_address: ${MAC_ADDRESS}
+    networks:
+      default:
+        mac_address: ${MAC_ADDRESS}
     entrypoint: /setup-entrypoint
     volumes:
       # Saves the client configuration between container restarts
@@ -14,7 +16,9 @@ services:
   mender-client:
     image: mender-client-docker
     container_name: mender-client
-    mac_address: ${MAC_ADDRESS}
+    networks:
+      default:
+        mac_address: ${MAC_ADDRESS}
     volumes:
       # Mount the setup from the mender-client-config container
       - mender-client-config:/etc/mender
