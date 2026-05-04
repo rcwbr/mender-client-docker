@@ -4,6 +4,7 @@ services:
     container_name: mender-client-setup
     environment:
       DEVICE_TYPE: ${DEVICE_TYPE}
+      MENDER_HOST: ${MENDER_HOST}
       TENANT_TOKEN: ${TENANT_TOKEN}
     networks:
       default:

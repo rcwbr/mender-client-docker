@@ -1,11 +1,18 @@
 #!/bin/bash
 
-mender-setup \
-  --quiet \
-  --device-type "$DEVICE_TYPE" \
-  --demo=false \
-  --hosted-mender \
-  --tenant-token "$TENANT_TOKEN" \
-  --update-poll 5 \
-  --inventory-poll 600 \
+args=(
+  --device-type "$DEVICE_TYPE"
+  --inventory-poll 600
+  --quiet
   --retry-poll 5
+  --tenant-token "$TENANT_TOKEN"
+  --demo-server=false
+  --server-cert ""
+  --update-poll 5
+)
+
+if [ -n "$MENDER_HOST" ]; then
+  args+=(--server-url "$MENDER_HOST")
+fi
+
+mender-setup "${args[@]}"
