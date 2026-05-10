@@ -25,6 +25,7 @@ apt-get update
 apt-get install --allow-unauthenticated --no-install-recommends -y \
     mender-client4=5.0.1* \
     mender-connect=2.3.0* \
+    skopeo=1.13.3* \
     xdelta3=3.0.11*
     apt-get clean
 apt-get autoclean
@@ -47,8 +48,6 @@ wget -q https://raw.githubusercontent.com/mendersoftware/app-update-module/1.1.0
     -O /etc/mender/mender-app.conf
 wget -q https://raw.githubusercontent.com/mendersoftware/app-update-module/1.1.0/conf/mender-app-docker-compose.conf \
     -O /etc/mender/mender-app-docker-compose.conf
-wget -q https://github.com/lework/skopeo-binary/releases/download/v1.22.0/skopeo-linux-amd64 -O /usr/bin/skopeo \
-    && chmod +x /usr/bin/skopeo
 EOF
 
 COPY entrypoint /entrypoint
