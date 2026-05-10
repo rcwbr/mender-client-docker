@@ -41,12 +41,14 @@ wget -q https://raw.githubusercontent.com/mendersoftware/app-update-module/1.1.0
     -O $APP_MODULE_COMPOSE
     chmod +x $APP_MODULE_COMPOSE
 sed -i '/^\ \ \ \ \$docker_cmd image load < "\$input_file"$/a \
-\ \ \ \ input_sha=\$(tar -xf "\$input_file" index.json -O  | jq -r '\''.manifests[0].digest | ltrimstr("sha256:")'\'') \
+\ \ \ \ input_sha=\$(skopeo inspect "oci-archive://\$input_file" | jq -r '\''.Digest | ltrimstr("sha256:")'\'') \
 \ \ \ \ \$docker_cmd tag "\$input_sha" "\${url%%@sha256:*}"'  $APP_MODULE_COMPOSE
 wget -q https://raw.githubusercontent.com/mendersoftware/app-update-module/1.1.0/conf/mender-app.conf \
     -O /etc/mender/mender-app.conf
 wget -q https://raw.githubusercontent.com/mendersoftware/app-update-module/1.1.0/conf/mender-app-docker-compose.conf \
     -O /etc/mender/mender-app-docker-compose.conf
+wget -q https://github.com/lework/skopeo-binary/releases/download/v1.22.0/skopeo-linux-amd64 -O /usr/bin/skopeo \
+    && chmod +x /usr/bin/skopeo
 EOF
 
 COPY entrypoint /entrypoint
